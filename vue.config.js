@@ -7,8 +7,16 @@ module.exports = {
                 'components': '@/components',
                 'network': '@/network',
                 // 'router': '@/router',
-                'view': '@/view',
+                'views': '@/views',
             }
         }
-    }
+    },
+    lintOnSave: false,
+    devServer: {
+        overlay: {
+            warning: false,
+            errors: false
+        }
+
+    },
 }
