@@ -1,6 +1,6 @@
 <template>
   <tab-bar>
-      <tab-bar-item  path="/home">
+      <tab-bar-item  path="/home" activeColor="deeppink">
           <template v-slot:item-icon>
             <img src="@/assets/img/tabbar/home.svg" alt="">
           </template>
@@ -11,7 +11,7 @@
             <div>首页</div>
           </template>
       </tab-bar-item>
-      <tab-bar-item path="/category">
+      <tab-bar-item path="/category" activeColor="deeppink">
           <template v-slot:item-icon>
             <img src="@/assets/img/tabbar/category.svg" alt="">
           </template>
@@ -22,7 +22,7 @@
             <div>分类</div>
           </template>
       </tab-bar-item>
-      <tab-bar-item path="/cart">
+      <tab-bar-item path="/cart" activeColor="deeppink">
           <template v-slot:item-icon>
             <img src="@/assets/img/tabbar/cart.svg" alt="">
           </template>
@@ -33,7 +33,7 @@
             <div>购物车</div>
           </template>
       </tab-bar-item>
-      <tab-bar-item path="/profile">
+      <tab-bar-item path="/profile" activeColor="deeppink">
           <template v-slot:item-icon>
             <img src="@/assets/img/tabbar/profile.svg" alt="">
           </template>

@@ -1,12 +1,12 @@
 <template>
-    <div class="tab-bar-item" @click="active();itemClick()">
+    <div class="tab-bar-item" @click="itemClick">
         <div v-if="!isActive">
             <slot name="item-icon"></slot>
         </div>
         <div v-else>
             <slot name="item-icon-active"></slot>
         </div>
-        <div :class="{active: isActive}">
+        <div :style="activeStyle">
             <slot name="item-text"></slot>
         </div>
     </div>
@@ -17,19 +17,28 @@
 export default {
     name: "TabBarItem",
     props: {
-        path: String
+        path: String,
+        activeColor: {
+            type: String,
+            default: 'pink'
+        }
     },
     data() {
         return {
-            isActive: false,
+            // isActive: false,
         }
     },
     methods: {
-        active() {
-            this.isActive = true
-        },
         itemClick() {
             this.$router.replace(this.path)
+        }
+    },
+    computed: {
+        isActive() {
+            return this.$route.path.includes(this.path)
+        },
+        activeStyle(){
+            return this.isActive ? {color: this.activeColor}: {}
         }
     }
 }
@@ -51,8 +60,5 @@ export default {
         margin: 2px 0;
         font-size: 12px;
         font-style: normal;
-    }
-    .active {
-        color: pink;
     }
 </style>
