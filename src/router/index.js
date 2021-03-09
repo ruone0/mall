@@ -2,13 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const Home = () =>
-    import ('@/views/home/home');
+    import ('@/views/home/Home');
 const category = () =>
-    import ('@/views/category/category');
+    import ('@/views/category/Category');
 const cart = () =>
-    import ('@/views/cart/cart');
+    import ('@/views/cart/Cart');
 const profile = () =>
-    import ('@/views/profile/profile');
+    import ('@/views/profile/Profile');
 
 
 // 1.安装插件   vuecli4不需要安装
