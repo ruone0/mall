@@ -3,7 +3,7 @@
     <!--将index换为key不行,会有一张空白 -->
     <swiper-item v-for="(item, index) in banners"  :key="index">  
       <a :href="item.link">
-        <img :src="item.image" alt="">
+        <img :src="item.image" alt="" @load="imageLoad">
       </a>
     </swiper-item>
   </swiper>
@@ -24,13 +24,27 @@
         default() {
           return []
         }
-      },
+    },
     //   recommends: {
     //     type: Array,
     //     default() {
     //       return []
     //     }
     //   }
+    
+    },
+    data() {
+      return {
+        isLoad: true 
+      }
+    },
+    methods: {
+      imageLoad () {
+        if (this.isLoad) {
+          this.$emit('swiperImageLoad')
+          this.isLoad = false
+        }
+      },
     }
   }
 </script>

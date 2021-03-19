@@ -6,6 +6,10 @@
         <div>购物街</div>
       </template>
     </nav-bar>
+    <tab-control class="tab-control"
+                    :titles="['流行','新款','精选']" 
+                    @tabClick="tabClick"
+                    ref="tabControl1" v-show="isTabFixed"/>
     <!-- 轮播图 -->
     <scroll class="content"
             ref="scroll"
@@ -13,11 +17,12 @@
             @scroll="contentScroll"
             :pull-up-load="true"
             @pullingUp="loadMore">
-      <home-swiper :banners="banners" />
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"/>
       <home-recommend :recommends="recommends" />
       <home-feature />
-      <tab-control class="tab-control"
-       :titles="['流行','新款','精选']" @tabClick="tabClick" />
+      <tab-control :titles="['流行','新款','精选']" 
+                    @tabClick="tabClick"
+                    ref="tabControl2" v-show="!isTabFixed"/>
       <goods-list :goods="showGoods" />
     </scroll>
 
@@ -62,7 +67,9 @@
           sell: {page: 0, list: []},
         },
         currentType: 'pop',
-        isShowBackTop: false
+        isShowBackTop: false,
+        tabOffsetTop: 0,
+        isTabFixed: false
       }
     },
     methods: {
@@ -79,17 +86,26 @@
             this.currentType = 'sell'
             break
         }
+        this.$refs.tabControl1.currentIndex = index;
+        this.$refs.tabControl2.currentIndex = index;
       },
       backClick() {
         this.$refs.scroll.scrollTo(0, 0, 500)
       },
       contentScroll(position) {
+        console.log(this.tabOffsetTop);
         this.isShowBackTop = (position.y < -1000)
+        this.isTabFixed = (position.y < -this.tabOffsetTop)
       },
       loadMore() {
         this.getHomeGoods(this.currentType)
         this.$refs.scroll.finishPullUp()
         // this.$refs.scroll.refresh()
+      },
+      swiperImageLoad() {
+        // BUG  为什么要减去44
+        this.tabOffsetTop = this.$refs.tabControl2  .$el.offsetTop - 44
+        // console.log(this.$refs.tabControl.$el.offsetTop);
       },
 
       // 网络请求相关代码
@@ -106,7 +122,9 @@
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1
         })
-      }
+      },
+      
+
       
     },
     computed: {
@@ -119,6 +137,13 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+      
+    },
+    mounted() {
+      // 赋值
+      // this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
+      
     }
   }
 </script>
@@ -126,20 +151,23 @@
 <style scoped>
   .home-nav {
     background-color: var(--color-tint);
-    position: fixed;
+    /* 在使用原生滚动时为了使导航不跟随滚动设置   */
+    /* position: relative; */
+    /*
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 9999; */
   }
   #home {
-    padding-top: 44px;
+    /* padding-top: 44px; */
     height: 100vh;
   }
   .tab-control {
-    position: sticky;
+    /* position: sticky;
     top: 43px;
-    z-index: 9999;
+    z-index: 9999; */
+    position: relative;
   }
   .content {
     height: calc(100% - 49px);
